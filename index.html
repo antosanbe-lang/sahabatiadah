@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahabat Ibadah - Pendamping Ibadah Anda</title>
+    <link rel="stylesheet" href="src/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%231e7e34' width='192' height='192' rx='45'/><text x='96' y='96' font-size='120' fill='white' text-anchor='middle' dominant-baseline='middle'>☪</text></svg>">
+    <meta name="theme-color" content="#1e7e34">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Sahabat Ibadah">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    <h1>Sahabat Ibadah</h1>
+                </div>
+                <div class="header-info">
+                    <div class="location-info" id="locationInfo">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="cityName">Deteksi Lokasi...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="prayer-times">
+                <i class="fas fa-clock"></i>
+                <span>Jadwal Sholat</span>
+            </button>
+            <button class="nav-tab" data-tab="qibla">
+                <i class="fas fa-compass"></i>
+                <span>Arah Kiblat</span>
+            </button>
+            <button class="nav-tab" data-tab="morning-dhikr">
+                <i class="fas fa-sun"></i>
+                <span>Dzikir Pagi</span>
+            </button>
+            <button class="nav-tab" data-tab="evening-dhikr">
+                <i class="fas fa-moon"></i>
+                <span>Dzikir Malam</span>
+            </button>
+            <button class="nav-tab admin-tab" onclick="openAdminDashboard()" title="Admin Dashboard">
+                <i class="fas fa-cog"></i>
+                <span>Admin</span>
+            </button>
+                <i class="fas fa-moon"></i>
+                <span>Dzikir Petang</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Prayer Times Tab -->
+            <section id="prayer-times" class="tab-content active">
+                <div class="prayer-container">
+                    <div class="date-info">
+                        <h2 id="currentDate"></h2>
+                        <p id="hijriDate"></p>
+                    </div>
+
+                    <div class="prayer-times-grid">
+                        <div class="prayer-card fajr">
+                            <div class="prayer-name">Subuh</div>
+                            <div class="prayer-time" id="fajrTime">--:--</div>
+                            <div class="prayer-icon"><i class="fas fa-star"></i></div>
+                        </div>
+
+                        <div class="prayer-card syuruq">
+                            <div class="prayer-name">Terbit</div>
+                            <div class="prayer-time" id="syuruqTime">--:--</div>
+                            <div class="prayer-icon"><i class="fas fa-sun"></i></div>
+                        </div>
+
+                        <div class="prayer-card dhuhr">
+                            <div class="prayer-name">Dhuhur</div>
+                            <div class="prayer-time" id="dhuhrTime">--:--</div>
+                            <div class="prayer-icon"><i class="fas fa-sun"></i></div>
+                        </div>
+
+                        <div class="prayer-card asr">
+                            <div class="prayer-name">Ashar</div>
+                            <div class="prayer-time" id="asrTime">--:--</div>
+                            <div class="prayer-icon"><i class="fas fa-cloud-sun"></i></div>
+                        </div>
+
+                        <div class="prayer-card maghrib">
+                            <div class="prayer-name">Magrib</div>
+                            <div class="prayer-time" id="maghribTime">--:--</div>
+                            <div class="prayer-icon"><i class="fas fa-sun"></i></div>
+                        </div>
+
+                        <div class="prayer-card isha">
+                            <div class="prayer-name">Isya</div>
+                            <div class="prayer-time" id="ishaTime">--:--</div>
+                            <div class="prayer-icon"><i class="fas fa-moon"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="next-prayer-info">
+                        <h3>Sholat Berikutnya</h3>
+                        <div class="next-prayer-card">
+                            <div id="nextPrayerName">-</div>
+                            <div id="nextPrayerTime">--:--</div>
+                            <div id="nextPrayerCountdown">Menunggu</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Qibla Tab -->
+            <section id="qibla" class="tab-content">
+                <div class="qibla-container">
+                    <div class="compass-section">
+                        <div class="compass-wrapper">
+                            <div class="compass" id="compass">
+                                <div class="compass-circle"></div>
+                                <div class="compass-north">U</div>
+                                <div class="compass-direction direction-n">U</div>
+                                <div class="compass-direction direction-e">T</div>
+                                <div class="compass-direction direction-s">S</div>
+                                <div class="compass-direction direction-w">B</div>
+                                <div class="needle" id="qiblaArrow"></div>
+                            </div>
+                        </div>
+                        <div class="angle-display">
+                            <div class="angle-value" id="qiblaAngle">0°</div>
+                            <p>Arah Kiblat</p>
+                        </div>
+                    </div>
+
+                    <div class="qibla-info">
+                        <h3>Informasi Arah Kiblat</h3>
+                        <div class="info-card">
+                            <p><strong>Lokasi:</strong> <span id="qiblaLocation">Deteksi lokasi...</span></p>
+                            <p><strong>Latitude:</strong> <span id="qiblaLat">-</span></p>
+                            <p><strong>Longitude:</strong> <span id="qiblaLon">-</span></p>
+                            <p><strong>Arah Kiblat:</strong> <span id="qiblaDirection">-</span></p>
+                        </div>
+                    </div>
+
+                    <div class="instructions">
+                        <h4><i class="fas fa-info-circle"></i> Petunjuk Penggunaan</h4>
+                        <ol>
+                            <li>Arahkan atas ponsel Anda ke arah yang ditunjukkan oleh jarum merah</li>
+                            <li>Pastikan ponsel dalam posisi horizontal (tidak miring)</li>
+                            <li>Jarum akan berputar sesuai arah Anda berdiri</li>
+                            <li>Ketika jarum merah menunjuk ke depan, Anda menghadap Kiblat</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Morning Dhikr Tab -->
+            <section id="morning-dhikr" class="tab-content">
+                <div class="dhikr-container">
+                    <div class="dhikr-header">
+                        <h2>Dzikir Pagi</h2>
+                        <p>Setelah Sholat Subuh atau saat pagi hari</p>
+                    </div>
+
+                    <div class="dhikr-list" id="morningDhikrList">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Evening Dhikr Tab -->
+            <section id="evening-dhikr" class="tab-content">
+                <div class="dhikr-container">
+                    <div class="dhikr-header">
+                        <h2>Dzikir Petang</h2>
+                        <p>Setelah Sholat Ashar atau saat sore/petang hari</p>
+                    </div>
+
+                    <div class="dhikr-list" id="eveningDhikrList">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 Sahabat Ibadah - Aplikasi Pendamping Ibadah Islami</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="src/js/prayerTimes.js"></script>
+    <script src="src/js/qibla.js"></script>
+    <script src="src/js/dhikr.js"></script>
+    <script src="src/js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('✅ Service Worker registered successfully');
+                    })
+                    .catch(error => {
+                        console.log('❌ Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
